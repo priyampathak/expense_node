@@ -11,18 +11,20 @@ const cardController = {
         }
     },
 
-    getCard: async (req, res)=>{
-        try{
+    getCard: async (req, res) => {
+        try {
             const userId = req.params.userid;
-            const card = await Card.find({ user_id:userId });
-            if(!card) {
-                return res.status(404).json({ message: 'card not found'});
+            const cards = await Card.find({ user_id: userId });
+            
+            // Check if any cards are found
+            if (!cards || cards.length === 0) {
+                return res.status(404).json({ message: 'No cards found for this user' });
             }
-            res.json(card);
-        }
-        catch (error){
+    
+            res.json(cards);
+        } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Internal server Error'})
+            res.status(500).json({ message: 'Internal server Error' });
         }
     },
 
