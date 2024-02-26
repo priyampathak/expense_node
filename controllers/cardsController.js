@@ -1,3 +1,4 @@
+const { cookies } = require('next/headers');
 const Card = require('../models/cards')
 
 const cardController = {
@@ -41,6 +42,26 @@ const cardController = {
             res.status(500).json({ message: 'Internal server Error' });
         }
     },
+
+    createCard: async (req, res)=>{
+        try {
+            const { card_no, card_type, expiry, balance_init, balance_curr, user_id } = req.body
+            const newCard = new Card({
+                card_no,
+                card_type,
+                expiry,
+                balance_init,
+                balance_curr,
+                user_id
+            });
+
+            const savedCard = await newCard.save();
+            res.status(201).json(savedCard);
+        } catch(error) {
+            console.error(error);
+            res.status(500).json({ message: "Internal server error"})
+        }
+    }
 };
 
 module.exports = cardController;
