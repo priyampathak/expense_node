@@ -1,4 +1,3 @@
-const { cookies } = require('next/headers');
 const Card = require('../models/cards')
 
 const cardController = {
